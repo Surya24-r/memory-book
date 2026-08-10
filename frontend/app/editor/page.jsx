@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useEditorStore } from "@/components/store/useEditorStore";
 import Header from "@/components/editor/Header";
@@ -10,7 +10,7 @@ import LayoutPanel from "@/components/editor/LayoutPanel";
 import PageThumbnails from "@/components/editor/PageThumbnails";
 import StepsFooter from "@/components/editor/StepsFooter";
 
-export default function EditorPage() {
+function EditorContent() {
   const searchParams = useSearchParams();
   const designIdFromUrl = searchParams.get("design_id");
   const initEditor = useEditorStore((s) => s.initEditor);
@@ -41,5 +41,19 @@ export default function EditorPage() {
       </div>
       <PageThumbnails />
     </div>
+  );
+}
+
+export default function EditorPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center h-screen bg-neutral-100 text-neutral-500">
+          Loading editor...
+        </div>
+      }
+    >
+      <EditorContent />
+    </Suspense>
   );
 }
