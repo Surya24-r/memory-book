@@ -43,7 +43,7 @@ export default function Theme() {
           </div>
           <div className="relative  rounded-[28px] overflow-hidden">
             <Image
-              src="/images/Baby.svg"
+              src="/images/baby.svg"
               alt="Baby-c"
               width={330}
               height={386}
