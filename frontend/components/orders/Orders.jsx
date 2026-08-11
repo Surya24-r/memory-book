@@ -40,7 +40,7 @@ function StatusDropdown({ orderId, status, onStatusChange }) {
     const newStatus = e.target.value;
     setIsUpdating(true);
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/orders/${orderId}/status`, {
+      const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
@@ -79,7 +79,7 @@ export default function Orders() {
   useEffect(() => {
     const fetchDrafts = async () => {
       try {
-        const res = await fetchWithAuthRetry("http://localhost:8000/editor/drafts");
+        const res = await fetchWithAuthRetry(`${process.env.NEXT_PUBLIC_API_URL}/editor/drafts`);
         if (!res.ok) throw new Error("Failed to fetch drafts");
         setDrafts(await res.json());
       } catch (err) {
@@ -92,7 +92,7 @@ export default function Orders() {
 
     const fetchOrders = async () => {
       try {
-        const res = await fetchWithAuthRetry("http://localhost:8000/orders");
+        const res = await fetchWithAuthRetry(`${process.env.NEXT_PUBLIC_API_URL}/orders`);
         if (!res.ok) throw new Error("Failed to fetch orders");
         setOrders(await res.json());
       } catch (err) {
@@ -115,7 +115,7 @@ export default function Orders() {
     if (!confirmed) return;
     setDeletingOrderId(orderId);
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/orders/${orderId}`, { method: "DELETE" });
+      const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}`, { method: "DELETE" });
       if (!res.ok) throw new Error("Failed to delete order");
       setOrders((prev) => prev.filter((o) => o.id !== orderId));
     } catch (error) {

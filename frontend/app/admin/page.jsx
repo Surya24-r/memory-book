@@ -22,7 +22,7 @@ function StatusDropdown({ orderId, status, onStatusChange }) {
     const newStatus = e.target.value;
     setIsUpdating(true);
     try {
-      const res = await fetchWithAuth(`http://localhost:8000/orders/${orderId}/status`, {
+      const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}/status`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
@@ -63,7 +63,7 @@ export default function AdminDashboard() {
 
     const fetchDrafts = async () => {
       try {
-        const res = await fetchWithAuth("http://localhost:8000/admin/drafts");
+        const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/admin/drafts`);
         if (!res.ok) throw new Error("Failed to fetch drafts");
         setDrafts(await res.json());
       } catch (err) {
@@ -76,7 +76,9 @@ export default function AdminDashboard() {
 
     const fetchOrders = async () => {
       try {
-        const res = await fetchWithAuth("http://localhost:8000/admin/orders");
+        const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/admin/orders`
+          
+        );
         if (!res.ok) throw new Error("Failed to fetch orders");
         setOrders(await res.json());
       } catch (err) {

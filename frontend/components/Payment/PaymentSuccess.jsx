@@ -24,7 +24,7 @@ export default function PaymentSuccess() {
     if (!orderId) return;
     const fetchOrder = async () => {
       try {
-        const res = await fetchWithAuth(`http://localhost:8000/orders/${orderId}`);
+        const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/orders/${orderId}`);
         if (res.ok) setOrder(await res.json());
       } catch (error) {
         console.error("Failed to fetch order:", error);

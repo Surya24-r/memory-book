@@ -40,7 +40,7 @@ export default function UploadHero() {
 
     const fetchExistingPhotos = async () => {
       try {
-        const response = await fetchWithAuth(`http://localhost:8000/photos/${designId}`);
+        const response = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/photos/${designId}`);
         if (response.ok) {
           const data = await response.json();
           const existingPhotos = data.map((photo) => ({
@@ -88,7 +88,7 @@ export default function UploadHero() {
         formData.append("dpi_warning", "false");
 
         try {
-          const response = await fetchWithAuth("http://localhost:8000/photos/upload", {
+          const response = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/photos/upload`, {
             method: "POST",
             body: formData,
           });
@@ -126,7 +126,7 @@ export default function UploadHero() {
   const handleDeletePhoto = async (photoId) => {
     setPhotos((prev) => prev.filter((photo) => photo.id !== photoId));
     try {
-      await fetchWithAuth(`http://localhost:8000/photos/${photoId}`, { method: "DELETE" });
+      await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/photos/${photoId}`, { method: "DELETE" });
     } catch (error) {
       console.error("Failed to delete photo from backend:", error);
     }

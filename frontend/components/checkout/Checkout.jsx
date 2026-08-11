@@ -36,7 +36,7 @@ export default function Checkout() {
     if (!designId) return;
     const fetchAddresses = async () => {
       try {
-        const res = await fetchWithAuth(`http://localhost:8000/addresses/${designId}`);
+        const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/addresses/${designId}`);
         if (res.ok) {
           const data = await res.json();
           setAddresses(data);
@@ -60,7 +60,7 @@ export default function Checkout() {
     }
     setIsSavingAddress(true);
     try {
-      const res = await fetchWithAuth("http://localhost:8000/addresses", {
+      const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/addresses`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -90,7 +90,7 @@ export default function Checkout() {
   const handleConfirmPayment = async (paymentMethod) => {
     setIsCreatingOrder(true);
     try {
-      const orderRes = await fetchWithAuth("http://localhost:8000/orders", {
+      const orderRes = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/orders`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ design_id: designId, address_id: selectedAddressId, quantity, amount: total }),
@@ -98,7 +98,7 @@ export default function Checkout() {
       if (!orderRes.ok) throw new Error("Failed to create order");
       const order = await orderRes.json();
 
-      const payRes = await fetchWithAuth(`http://localhost:8000/orders/${order.id}/pay`, {
+      const payRes = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/orders/${order.id}/pay`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ payment_method: paymentMethod }),
