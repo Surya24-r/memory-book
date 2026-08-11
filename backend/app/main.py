@@ -17,8 +17,11 @@ app = FastAPI(title="MemoryBook API")
 # Enable CORS for Next.js frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"
-                   , "https://memory-book.vercel.app"],
+    allow_origins=[
+    "http://localhost:3000",
+    "https://memory-book-jet.vercel.app",
+    "https://memory-book-git-main-surya24-r.vercel.app",
+],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
