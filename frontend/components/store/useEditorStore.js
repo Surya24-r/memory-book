@@ -279,7 +279,7 @@ export const useEditorStore = create(
             bookSize,
           } = get();
           try {
-            await fetchWithAuth(`http://localhost:8000/editor/autosave/${designId}`, {
+            await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/editor/autosave/${designId}`, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
@@ -316,7 +316,7 @@ export const useEditorStore = create(
           bookSize,
         } = get();
         try {
-          const res = await fetchWithAuth(`http://localhost:8000/editor/save/${designId}`, {
+          const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/editor/save/${designId}`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -430,7 +430,7 @@ export const useEditorStore = create(
           formData.append("dpi_warning", "false");
 
           try {
-            const res = await fetchWithAuth("http://localhost:8000/photos/upload", {
+            const res = await fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/photos/upload`, {
               method: "POST",
               body: formData,
             });
@@ -470,8 +470,8 @@ export const useEditorStore = create(
         // but no saved draft yet, so we can't rely on the draft endpoint
         // to also hand back the photo list — fetch both separately.
         const [draftRes, photosRes] = await Promise.allSettled([
-          fetchWithAuth(`http://localhost:8000/editor/load/${targetDesignId}`),
-          fetchWithAuth(`http://localhost:8000/photos/${targetDesignId}`),
+          fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/editor/load/${targetDesignId}`),
+          fetchWithAuth(`${process.env.NEXT_PUBLIC_API_URL}/photos/${targetDesignId}`),
         ]);
 
         try {
